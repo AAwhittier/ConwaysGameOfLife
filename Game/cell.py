@@ -9,6 +9,12 @@ class Cell:
         """
         self._state = state
 
+    def invert_cell(self):
+        """Sets a cell state to its inverse value.
+
+        """
+        self._state = not self._state
+
     def get_state(self):
         """Getter for _state
 

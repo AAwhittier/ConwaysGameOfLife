@@ -1,5 +1,7 @@
 from Game.grid import Grid
 from Game.generation import Generation
+from Game.inputhandle import InputHandle
+from Game.text import Text
 import pygame
 
 
@@ -29,8 +31,10 @@ class Director:
          """
         self._window = window
         self._running = True
+        self._field_active = False
         self._grid = Grid(int(size_window / size_cell))
         self._size_cell = size_cell
+        self._buttons = []
 
     def run_game(self):
         """Start the core game loop.
@@ -38,16 +42,23 @@ class Director:
          Args:
              self (Director): An instance of Director.
          """
+
         while self._running:
+
+            # Handle pygame events.
             for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self._field_active = not self._field_active
+
+                # Interpret input clicks and locate them.
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     m_pos = event.pos
+                    m_pos = InputHandle.parse_click(m_pos, self._size_cell + self.OFFSET)
 
-                    # for button in self._buttons:
-                    #     if button[0].collidepoint(m_pos):
-                    #         self._grid.get_grid()[button[1]][button[2]]\
-                    #             .set_state(1 - self._grid.get_grid()[button[1]][button[2]].get_state())
+                    self._grid.get_grid()[m_pos[0]][m_pos[1]].invert_cell()
 
+                # Terminate game.
                 if event.type == pygame.QUIT:
                     self._running = False
 
@@ -69,5 +80,5 @@ class Director:
                 else:
                     pygame.draw.rect(self._window, self.COLOR_DEAD, cell)
 
-        self._grid = Generation.next_generation(self._grid)
-
+        if not self._field_active:
+            self._grid = Generation.next_generation(self._grid)

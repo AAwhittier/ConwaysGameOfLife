@@ -12,6 +12,7 @@ def main():
     Sets up initial game window and sends it to the director.
     """
     pygame.init()
+    pygame.display.set_caption("Conways Game of Life")
     window = pygame.display.set_mode((SIZE_WINDOW, SIZE_WINDOW))
 
     director = Director(window, SIZE_CELL, SIZE_WINDOW)
