@@ -13,6 +13,7 @@ Conways game of life is a generational game which follows a few rules:
  
  # Gameplay and Controls
  Space - pause the game
+ 
  Mouse click - flip a cell between dead and alive states. This may be done while the simulation is running, or while it is paused to change multiple cells before the next generation begins.
 
 # Dependencies
